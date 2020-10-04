@@ -41,6 +41,16 @@ class DataReader:
 
         start = dt.datetime(2000, 1, 1)
         end = dt.datetime.now()
+
+        print("SPY")
+        if not os.path.exists('stock_dfs/SPY.csv'):
+            df = pdr.get_data_yahoo("SPY", start, end)
+            df.reset_index(inplace=True)
+            df.set_index("Date", inplace=True)
+            df.to_csv('stock_dfs/SPY.csv')
+        else:
+            print('Already have SPY')
+
         for ticker in tickers:
             print(ticker)
             if not os.path.exists('stock_dfs/{}.csv'.format(ticker)):
