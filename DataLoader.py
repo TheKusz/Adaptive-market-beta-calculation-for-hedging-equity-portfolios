@@ -11,6 +11,11 @@ yf.pdr_override()
 
 
 class DataReader:
+    open_df = None
+    close_df = None
+    daily_return_df = None
+    tickers = None
+
     def __init__(self):
         self.get_data_from_yahoo(self, True)
         self.compile_data(self)
@@ -25,6 +30,7 @@ class DataReader:
             ticker = row.findAll('td')[0].text.replace('.', '-')
             ticker = ticker[:-1]
             tickers.append(ticker)
+        tickers.append('SPY')
         with open("sp500tickers.pickle", "wb") as f:
             pickle.dump(tickers, f)
         return tickers
@@ -33,6 +39,7 @@ class DataReader:
     def get_data_from_yahoo(self, reload_sp500=False):
         if reload_sp500:
             tickers = self.save_sp500_tickers(self)
+            self.tickers = tickers
         else:
             with open("sp500tickers.pickle", "rb") as f:
                 tickers = pickle.load(f)
@@ -108,8 +115,11 @@ class DataReader:
                 print(count)
 
         print(main_open_df.head())
+        self.open_df = main_open_df
         main_open_df.to_csv('sp500_joined_opens.csv')
         print(main_close_df.head())
+        self.close_df = main_close_df
         main_close_df.to_csv('sp500_joined_closes.csv')
         print(main_daily_return_df.head())
+        self.daily_return_df = main_daily_return_df
         main_daily_return_df.to_csv('sp500_joined_daily_returns.csv')
