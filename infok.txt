@@ -1,0 +1,77 @@
+Clarification
+Egy papírnak megnézem az értékeit x napra visszamenőleg, ennek lesz egy átlagos értéke.
+Van egy indexem, ami a piac mozgását reprezentálja, ezt is megnézem x napra visszamenőleg, ennek is lesz egy átlaga.
+
+Variancia: Az átlagtól milyen mértékben tér el, azaz mennyire nagy a papír ingadozása -> mennyire kockázatos (sokat megy le és fel)
+Kovariancia: Két instrument mennyire mozog együtt, minél nagyobb szám, annál inkább igaz, hogyha az egyik mozdul, a másik is fog. Ha negatív, akkor ellentétesen mozognak, ha nulla, akkor függetlenek.
+
+Kiszámolom egy papír varianciáját, és a papír indexhez képesti kovarianciáját, azaz mennyire ingadozik magától, és mennyire mozog együtt a piaccal.
+
+Béta: Egy papír változékonyságra való hajlama egy piachoz képest. covarianca / variancia. Azaz mennyire mozog együtt a piaccal korrelálva azzal, hogy alapból mennyire mozog. Pl. az indexek és a piac 1.0 értékkel (azaz teljesen) mozog együtt a piaccal.
+Ha 1-nél nagyobb az érték, akkor a papír jobban változik, mint a piac átlagosan.
+Ha 1-nél kisebb, akkor kevésbé mozog, mint a piac.
+Negatív: ellentétesen mozog, de ez nem túl valószínű, talán az arany.
+0: független: készpénz.
+Nagyon ritka már a 4 feletti béta érték is, ha ennél magasabb, akkor valószínűleg hibás az adat.
+
+béta error: a statisztikánkban kapott hipotézis false pozitív valószínűsége. Az adatmennyiség növelése csökkentheti. 10% az elfogadható.
+beta*index (piac hozam rész, raw béta) - papír = cov(papír, index)/var(papír)*index - papír
+hedged return: piactól független mozgásrész
+Ha a béta értéke nulla, akkor biztosan jó a béta értéke, tehát a papír biztosan annyira mozog eltérően piactól függetlenül, amit jósolunk.
+
+Hedge (kockázathárítás) egy papír értékét a szektor/piac/másik papír értékével együtt nézem. Kereskedésnél ez azt jelenti pl., hogy ellentétesen teszek az azonosan mozgó papírokra -> a szektor csökken, de a papír nő (szerintem): előbbit shortolom (pl. konkurencia céget), a másikat veszem. Így biztonságosabb a kereskedés, de kisebb a profit.
+
+Roling window: csúszóablakos számítási módszer, annyi eredményt fog visszaadni, amennyivel tolni tudom a megadott ablakméretet a napok számán.
+
+covariance = index.rolling(beta_window).cov(papír)
+market_variance = index.rolling(beta_window).var()
+beta = covariance / market_variance
+beta_err = beta * index - papír
+
+
+
+
+Data:
+required values: [Date] Open, High, Low, Close, Volume
+format: Open is a csv (DataFrame). Columns are stocks, rows are days
+required stocks: let’s say the most liquid 500 stocks from US (Nasdaq, NYSE)
+required ETFs; SPY or QQQ. These are gonna be used for hedging
+
+Calculations:
+We calculate daily returns by stock: (Close / Open) - 1.0
+The same is calculated for SPY
+Calculate rolling beta (using a fix rolling window):
+Calculate beta error
+
+
+
+0.lépés:
+Letöltöm az open, close és volume adatokat egy Dataframe-be (Python).
+https://finance.yahoo.com/quote/SPY?p=SPY&.tsrc=fin-srch
+A benne lévő papírok mozgását is tároljam el.
+
+Output: 3 dataframe (open, close, return ((close/open)-1)) 
+sorok a napok, oszlopok a részvények
+
+beta error: valódi ret - beta*spy 
+
+df: eloszlasok, adatok vizsgálata: eloszlasok, talbazatok
+df.plot
+math plotlib
+saeed /amen plot (github)
+df.describe: min, max, median, stb.
+
+follow the leader stratégia: különböző időablakokban az előző legjobbat veszi, és azt használja a következő napra (a fix értékekből)
+átmenet algoritmus (adaptív), df-el
+ki kell maszkolni, és az legkisebb hibás ablakot kell használni
+# 5, 10, 20, 40, 60: potenciális ablakméretek
+
+# cél: szórás csökkentése (beta err)
+# nagy ugrásokra nem szabad számítani, azokat el kell dobni, ha rossz az érték
+# más oldalakon is nagy az eltérés?
+# időben hogy alakul a hiba
+# expanding: elejétől (ezzel is lehet)
+
+# ? lehet-e tovább csökkenteni piactól függően a béta errort (nem csak fix értékként)
+
+
