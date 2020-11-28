@@ -74,4 +74,16 @@ ki kell maszkolni, és az legkisebb hibás ablakot kell használni
 
 # ? lehet-e tovább csökkenteni piactól függően a béta errort (nem csak fix értékként)
 
+https://pythonprogramming.net/handling-stock-data-graphing-python-programming-for-finance/?completed=/getting-stock-prices-python-programming-for-finance/
+Statisztika: https://s3.amazonaws.com/assets.datacamp.com/production/course_5612/slides/chapter2.pdf
+https://tinytrader.io/how-to-calculate-stock-beta-automatically-with-python/
 
+https://seaborn.pydata.org/tutorial/distributions.html
+
+chart tipusok: https://libraries.io/pypi/chartpy
+
+market_variance = daily_return_df['SPY'].rolling(beta_window).var()
+# market_variance_df = pd.DataFrame(market_variance.values.tolist(), index = market_variance.index)
+market_variance_df.rename(columns={0: "Variance"})
+
+https://www.shanelynn.ie/select-pandas-dataframe-rows-and-columns-using-iloc-loc-and-ix/
