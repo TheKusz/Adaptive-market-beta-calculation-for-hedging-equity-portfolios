@@ -87,3 +87,93 @@ market_variance = daily_return_df['SPY'].rolling(beta_window).var()
 market_variance_df.rename(columns={0: "Variance"})
 
 https://www.shanelynn.ie/select-pandas-dataframe-rows-and-columns-using-iloc-loc-and-ix/
+https://www.youtube.com/watch?v=6_Cuz0QqRWc Hipotesis
+
+Python selection:
+iloc: pozicio szerint
+loc: nev szerint
+
+Kerdesek:
+A portoliom = SP 500?
+Follow the leader eseten a sulyok frissitese minden egyes indexnel kiszamolando minden ablakra (ahogy most szamolom)?
+Hogy tudom parhuzamositani?
+
+matrix kitoltese:
+        self.priority = [[[-1, -1]] * self.boardColumn for _ in range(self.boardRow)]
+
+Random forest: több döntési fa, mindegyik mondd valamit, azt fogadjuk el, ami a leggyakoribb
+
+#d1, d2 = d1.align(d2)
+    #print([(i, np.where(df[i] == pd.np.fmin(act_beta_error_df, prev_beta))[0].tolist()) for i in list(df) if len(np.where(df[i] == 'd')[0]) > 0])
+    #min_windows.where(act_beta_error_df < prev_beta, act_beta_error_df[window])
+    #print(min_windows)
+#     if min
+#     error_by_window[w] = beta_error_df
+    #df = beta_error_df.replace(min)
+    
+#     for date in act_beta_error_df.index:
+#         #min_windows[date] = np.where(act_beta_error_df[date] < prev_beta_error_df[date], 5, act_beta_error_df[window])
+#         min_windows[date] = 5
+    #prev_beta_error_df["window"] = 5
+    
+#min_err = #error_by_window.apply(lambda x: [max(x, key=itemgetter(2))[-1]])
+
+# import matplotlib.pyplot as plt
+# from matplotlib.pyplot import figure
+# import numpy as np
+# import random 
+
+# # Follow The Leader:
+# # Randomly create a weights dataframe for all windows (5-60)
+# # Calculate paramteters with the smallest wighted window, and refresh all weight with the loss of it's value,
+# # which is the summary of beta errors
+# # Next round we select again the smallest weighted window, and so on
+
+# def calc_weights(W,i):
+#     for window in range (5,61):
+#         df = daily_return_df.iloc[i:i+window]
+#         cov = pd.Series({symbol: df['SPY'].cov(df[symbol]) 
+#                    for symbol in daily_return_df 
+#                    if symbol != 'SPY'})
+#         beta_df = cov.div(df['SPY'].var(), axis=0)
+#         beta_error_df = (df - beta_df.mul(df['SPY'].mean(), axis=0)) ** 2
+#         W[window-5] += beta_error_df.mean()
+
+# # Rolling windows are from [5,...,60]
+
+# np.random.seed()
+# W = np.random.randint(0, size=56)/100000 # 6 window
+# i = 0
+# window = 0
+# date_num = len(daily_return_df.index)
+# plt.figure(num=None, figsize=(16, 12), dpi=50, facecolor='w', edgecolor='k')
+
+# # minden window mereten
+# windows = [5,10,20,40,60]
+# error_by_window = {}
+# for w in windows:
+#     beta_df = daily_return_df.rolling(window=w).cov(daily_return_df['SPY']).div(daily_return_df['SPY'].rolling(window=w).var(), axis=0)
+#     beta_error_df = (daily_return_df - beta_df.mul(df['SPY'].mean(), axis=0)) ** 2
+#     error_by_window[w] = beta_error_df.sum(axis=1)
+
+# time 0
+
+# while i+w < 3:
+#     print("i:{0}, minimum window from W: {1}, remaining:{2}".format(i, np.argmin(W)+5, date_num-i))
+#     window = min(np.argmin(W) + 5, date_num - i)
+#     df = daily_return_df.iloc[i:i+window]
+    
+    
+#     #plt.plot(beta_error_df, label = "With rolling window {0}".format(window))
+    
+#     calc_weights(W,i)
+#     i+=1
+#     if i % 100 == 0:
+#         W = W/10
+    
+# time end
+# plt.xlabel('Beta error mean')
+# plt.ylabel('Volume')
+# plt.title("Beta error with Follow the leader")
+# plt.show()
+
