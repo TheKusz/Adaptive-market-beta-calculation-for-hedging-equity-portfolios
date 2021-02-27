@@ -177,3 +177,10 @@ Random forest: több döntési fa, mindegyik mondd valamit, azt fogadjuk el, ami
 # plt.title("Beta error with Follow the leader")
 # plt.show()
 
+
+
+indexes = {}
+for i in range(0,21):
+    index = [idx for idx, s in enumerate(daily_return_df.index) if '20'+f"{i:02d}" in s]
+    indexes[i] = [index[0],index[-1]]
+    
